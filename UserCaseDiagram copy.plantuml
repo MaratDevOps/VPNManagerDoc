@@ -1,0 +1,21 @@
+@startuml
+title Use Case Diagram: Система учёта пользователей (роль: Администратор)
+
+actor Администратор
+
+rectangle "Система учёта пользователей" {
+    usecase "Создать пользователя" as UC_Create
+    usecase "Просмотреть список пользователей" as UC_Read
+    usecase "Редактировать пользователя" as UC_Update
+    usecase "Удалить пользователя" as UC_Delete
+    usecase "Фильтрация и поиск" as UC_Search
+    
+}
+
+Администратор --> UC_Create
+Администратор --> UC_Read
+Администратор --> UC_Update
+Администратор --> UC_Delete
+
+
+@enduml

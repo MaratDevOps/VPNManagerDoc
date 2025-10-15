@@ -1,0 +1,29 @@
+@startuml
+
+actor AdministratorVPN
+actor Owner 
+
+Owner --|> AdministratorVPN
+
+rectangle "Edit VPN" {
+AdministratorVPN  -- (View the list of VPN)
+    (View the list of VPN) ..> (Create) 
+    (View the list of VPN) ..> (Update)
+    (View the list of VPN) ..> (Share)
+    /'вывести как комментарий: сгенерировать уникальную ссылку, при клике на которую появляется диалог: хотите ли вы импортировать этот VPN, да, нет'/
+    note right of Share
+        сгенерировать уникальную ссылку
+    end note
+    (Update) ..> (Delete)
+    (Update) ..> (View the list of Users)
+    (Update) ..> (VPN Setting)
+    note right of (VPN Setting)
+        Имя VPN, поля IP адрес, порт, User name, пароль есть но скрыт
+    end note
+    /'вывести как комментарий: Имя VPN, поля IP адрес, порт, User name, пароль есть но скрыт'/
+    (Update) ..> (Rename)
+    (VPN Setting) ..> (Setup new settings)
+    (Create) ..> (Setup new settings)
+
+}
+@enduml

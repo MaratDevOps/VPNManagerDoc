@@ -1,0 +1,28 @@
+@startuml
+actor User
+actor AdministratorVPN
+actor Owner 
+
+AdministratorVPN --|> User
+Owner --|> User
+Owner --|> AdministratorVPN
+
+rectangle "VPN Server manager" {
+    User -- (Login)
+    /'User -- (Greate SS-config set)
+    User -- (Добавлять товар в корзину)
+    User -- (Оформлять заказ)'/
+    
+    (Login) --> (View the list of SS-config) :<<include(при исполнении Login обязательно исполнится View)>>
+    (View the list of SS-config) ..> (Greate) 
+    (View the list of SS-config) ..> (Update)
+    (View the list of SS-config) ..> (Delete)
+
+    AdministratorVPN -- (user administration)
+    AdministratorVPN -- (VPN administration)
+    
+   
+    /'Администратор -- (Управлять товарами)
+    Администратор -- (Обрабатывать заказы)'/
+}
+@enduml
