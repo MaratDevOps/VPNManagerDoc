@@ -1,4 +1,4 @@
-@startuml
+@startuml Activity_setting_user
 title Activity: Редактирование пользователя через Telegram-бота
 
 start
