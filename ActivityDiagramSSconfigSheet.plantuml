@@ -1,0 +1,24 @@
+@startuml Activity_SSconfig_sheet
+title Activity: Список SS-config
+start
+
+:Отправить команду боту /SS_sheet;
+
+:Показать Список SS-config;
+note right
+/'Есть ли возможность редактировать SS-config или только создание нового и удаление?'/
+Удалить SS-config из списка(есть возможность удалить каждый элемент списка)
+в конце списка выводится предложение создать нового SS-config и команда /SS_create;
+end note
+    switch (:действия с SS-config)
+    case (Создать SS-config)
+        :Создание нового SS-config;
+    case (Удалить SS-config)
+        :Подтвердить удаление;
+        :Удалить SS-config;
+    case (Ничего не выбрано)          
+    endswitch
+stop
+
+
+@enduml
