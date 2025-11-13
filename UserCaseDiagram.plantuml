@@ -1,28 +1,21 @@
-@startuml
-actor User
+@startuml UserCaseMain
+
 actor AdministratorVPN
 actor Owner 
-
-AdministratorVPN --|> User
-Owner --|> User
+actor User
 Owner --|> AdministratorVPN
 
-rectangle "VPN Server manager" {
-    User -- (Login)
-    /'User -- (Greate SS-config set)
-    User -- (Добавлять товар в корзину)
-    User -- (Оформлять заказ)'/
-    
-    (Login) --> (View the list of SS-config) :<<include(при исполнении Login обязательно исполнится View)>>
+rectangle "VPN Server manager" {  
+    AdministratorVPN -- (VPN administration)
+    User -- (VPN administration for User)
+    (VPN administration) ..> (User administration)
+    (VPN administration)..> (View the list of self ssconfig)
+    (User administration) ..> (View the list of SS-config)
     (View the list of SS-config) ..> (Greate) 
     (View the list of SS-config) ..> (Update)
     (View the list of SS-config) ..> (Delete)
-
-    AdministratorVPN -- (user administration)
-    AdministratorVPN -- (VPN administration)
-    
    
-    /'Администратор -- (Управлять товарами)
-    Администратор -- (Обрабатывать заказы)'/
+    (VPN administration for User) ..> (View the list of self ssconfig)
+
 }
 @enduml

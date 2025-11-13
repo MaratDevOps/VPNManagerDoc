@@ -1,0 +1,23 @@
+@startuml
+
+actor AdministratorVPN
+actor Owner 
+
+Owner --|> AdministratorVPN
+
+rectangle "User administration" {
+AdministratorVPN  -- (View the list of Users)
+(View the list of Users) ..> (Create)
+(View the list of Users) ..> (Update)
+(View the list of Users) ..> (Show user statistic)
+(Update) ..> (Delete)
+(Update) ..> (View the list of SS-config)
+(Update) ..> (Share invite link)
+/'работает только если ссылка еще не применена'/
+(Update) ..> (Rename)
+(Update) ..> (Select Role)
+(Create) ..> (Create name)
+(Create) ..> (Select role)
+(Create) ..> (Share invite link)
+}
+@enduml

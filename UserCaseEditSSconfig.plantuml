@@ -13,7 +13,7 @@ note right of (View the list of SS-config)
         список ограничен правами пользователя
 end note
 (View the list of SS-config) ..> (Create)
-(View the list of SS-config) ..> (Update)
+(View the list of SS-config) ..> (Download)
 (View the list of SS-config) ..> (Delete)
 
 }

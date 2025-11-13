@@ -1,0 +1,7 @@
+@startuml Activity_create_SSconfig
+title Activity: Создание SSconfig
+
+start
+
+stop
+@enduml

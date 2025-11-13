@@ -18,7 +18,8 @@ end note
             :Подтвердить удаление;
             :Удалить пользователя;
         case (Посмотреть список SS-Config)
-            :Показать список SS-Config;
+            :Показать список SS-Config
+            [[ActivityDiagramSSconfigSheet.plantuml]];
         case (Ничего не выбрано)          
         endswitch
     elseif (Создать нового) then (Да)
