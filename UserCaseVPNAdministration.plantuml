@@ -9,12 +9,12 @@ rectangle "VPN administration" {
 AdministratorVPN  -- (View the list of VPN)
     (View the list of VPN) ..> (Create) 
     (View the list of VPN) ..> (Select)
-    (View the list of VPN) ..> (Statistic)
     (Select) ..> (Delete)
     (Select) ..> (View the list of Users)
     (Select) ..> (VPN Setting)
     (Select) ..> (View the list of self ssconfig)
     (Select) ..> (Return View the list of VPN)
+    (Select) ..> (Statistic)
     note right of (VPN Setting)
         технические настройки: поле IP адрес, порт, User name, пароль есть но скрыт
     end note

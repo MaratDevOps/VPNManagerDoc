@@ -1,0 +1,52 @@
+@startuml Activity_VPN_Administration
+title Activity: Администрирование VPN серверов
+
+start
+label sp_lab0
+
+:Бот выдает список VPN Доступный для данного пользователя;
+:В конце списка бот выдает команду "Создать новый VPN";
+if (выбран один из элементов списка) then (Да)
+    repeat
+    switch ( Предоставлен набор команд для данного VPN )
+    case ( Перейти к списку пользователей )
+        :[[ActivityDiagramUserSheet.plantuml]];
+    case ( Перейти к списку своих cc-config )
+        :[[ActivityDiagramSelfSSconfigSheet.plantuml]];
+    case ( Перейти к просмотру статистики )
+        :[[ActivityDiagramVPNStatistic.plantuml]];
+    case ( Переименовать VPN )
+        repeat
+            :Бот запрашивает новое представление для VPN;
+            :Пользователь вводит новое представление;
+        repeat while (Представление недопустимо?)
+        if (пользователь подтверждает переименование) then (Да)
+            :VPN переименовывается;
+        endif
+    case ( Удалить VPN )
+        while (Точно удаляем?)
+            :Удаление VPN; 
+        endwhile
+    case ( Вернуться к списку )
+        :[[ActivityDiagramVPNAdministration.plantuml]];
+    case ( Изменить настройки )
+        :вариант 2;
+    case ( ничего не выбрано )
+        :вариант 2;
+    endswitch
+    repeat while (возврат в управление сервером VPN) is (Да)
+        detach
+endif
+
+if (выбран создать новый VPN) then 
+    repeat
+        :Бот запрашивает наименование Сервера;
+        :Пользователь вводит наименование Сервера VPN;
+    repeat while (наименование Сервера VPN недопустимо?)
+    :Сохраняет изменения;
+
+    :Бот сообщает "Обновлено ✅";
+   
+endif
+stop
+@enduml
