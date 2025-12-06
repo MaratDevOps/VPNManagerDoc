@@ -1,0 +1,41 @@
+@startuml
+title Component Diagram: SS-config System
+
+' === Компоненты пользователя ===
+actor User
+
+' === Основной бот / Backend ===
+component "Bot / SS-config System" as B {
+    [Bot API Layer]
+    [Business Logic]
+}
+
+' === Хранилище данных ===
+database "RDBMS" as DB
+
+' === Компонент TaskAgent ===
+component "TaskAgent" as TA {
+    [Command Processor]
+    [Command Queue Handler]
+}
+
+' === VPN / внешняя инфраструктура ===
+component "VPN Service" as VPN
+
+' === Возможный кэш (упомянутый в тексте) ===
+component "Valkey / Redis (optional)" as REDIS
+
+' === Взаимосвязи ===
+
+User --> B : HTTP / Telegram API\n(Команды /SS_sheet...)
+B --> DB : SQL (SELECT, INSERT, DELETE)
+B --> REDIS : заявки (optional)
+
+B --> TA : запись в\ncommand_queue (через DB)
+TA --> DB : SELECT / UPDATE\ncommand_queue
+TA --> VPN : выполнение команд\n(SSH / API)
+VPN --> TA : отчёт о выполнении
+TA --> DB : отметка выполнения
+DB --> B : результат операций
+B --> User : ответы, списки,\nссылки, уведомления
+@enduml
