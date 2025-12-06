@@ -13,6 +13,10 @@ end note
     switch (:действия с SS-config)
     case (Создать SS-config)
         :Создание нового SS-config;
+        note right
+            SS-config конфигурация протокола ShadowSocket;
+        end note
+        :Скачать SS-config;
     case (Удалить SS-config)
         :Подтвердить удаление;
         :Удалить SS-config;
