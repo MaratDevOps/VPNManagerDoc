@@ -1,0 +1,89 @@
+@startuml
+title Class Diagram (Go structs) — SS-config System
+
+' ==== Основные сущности ====
+
+class SSConfig {
+    +ID int
+    +Name string
+    +Link string
+    +CreatedAt time.Time
+}
+
+class CommandQueueItem {
+    +ID int
+    +Command string
+    +Payload string
+    +Status string  <<pending|processing|done|error>>
+    +CreatedAt time.Time
+    +UpdatedAt time.Time
+}
+
+' ==== Репозитории ====
+
+interface SSConfigRepository {
+    +List() ([]SSConfig, error)
+    +Create(cfg SSConfig) (SSConfig, error)
+    +Delete(id int) error
+}
+
+interface CommandQueueRepository {
+    +Enqueue(cmd CommandQueueItem) (CommandQueueItem, error)
+    +GetPending() ([]CommandQueueItem, error)
+    +UpdateStatus(id int, status string) error
+}
+
+class RDBMS implements SSConfigRepository, CommandQueueRepository {
+    -db *sql.DB
+}
+
+' ==== Сервисы приложения ====
+
+class BotService {
+    -cfgRepo SSConfigRepository
+    -queueRepo CommandQueueRepository
+    +HandleList() ([]SSConfig, error)
+    +HandleCreate(cfg SSConfig) error
+    +HandleDelete(id int) error
+    +HandleDownload(id int) (string, error)
+}
+
+class RequestValidator {
+    +ValidateCreate(cfg SSConfig) error
+}
+
+
+' ==== Task Agent ====
+
+interface CommandExecutor {
+    +Execute(cmd CommandQueueItem) (string, error)
+}
+
+class TaskAgent {
+    -queueRepo CommandQueueRepository
+    -executor CommandExecutor
+    +ProcessQueue()
+}
+
+' ==== VPN executor ====
+
+class VPNExecutor implements CommandExecutor {
+    -vpnHost string
+    +Execute(cmd CommandQueueItem) (string, error)
+}
+
+
+' ==== Связи ====
+
+BotService --> SSConfigRepository
+BotService --> CommandQueueRepository
+
+TaskAgent --> CommandQueueRepository
+TaskAgent --> CommandExecutor
+
+VPNExecutor --> CommandExecutor
+
+RDBMS --> SSConfig
+RDBMS --> CommandQueueItem
+
+@enduml
