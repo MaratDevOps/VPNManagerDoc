@@ -1,0 +1,65 @@
+@startuml
+title Sequence Diagram: Список SS-config
+
+actor User as U
+participant "Bot / SS-config System" as B
+database "RDBMS" as DB
+control "TaskAgent" as TA
+boundary "VPN" as VPN
+
+== Запрос списка SS-config ==
+
+U -> B: /SS_sheet
+B -> DB: SELECT * FROM ss_config
+DB -> B: Список SS-config
+B -> U: Показать список SS-config\n+ «Создать SS-config»\n+ «Удалить (кнопка у каждого элемента)»
+
+== Выбор действия пользователем ==
+
+alt Создать SS-config
+    U -> B: Создать SS-config
+    /'для хранения заявок хорошо бы заюзать редис Valkey'/
+    B -> DB: создать заявку
+    DB -> B: заявка создана
+    B -> U: анимация ожидания
+    B -> DB: INSERT INTO ss_config (...)
+    B -> DB: INSERT INTO command_queue (...)
+    TA -> DB: Select command_queue
+    DB -> TA: Актуальные command_queue
+    TA -> VPN: выполнение комманды
+    VPN -> TA: отчет о выполнении комманды
+    TA -> DB: Putch command_queue
+    DB --> B: SS-config создан
+    B --> U: SS-config создан(результат по заявке)
+    
+else Скачать ссылку SS-config
+    U -> B: Скачать ссылку SS-config
+    B -> DB: запрос на получение ссылки
+    DB -> B: возврат ссылки
+    B -> U:  вывод пользователю ссылки
+else Удалить SS-config
+    U -> B: Удалить выбранный SS-config
+    B -> U: Подтвердить удаление?
+    U -> B: Подтверждаю
+    B -> DB: создать заявку на удаление
+    DB -> B: заявка на удаление создана
+    B -> U: анимация ожидания
+    B -> DB: INSERT INTO command_queue (...)
+    
+    TA -> DB: Select command_queue
+    DB -> TA: Актуальные command_queue
+    TA -> VPN: выполнение комманды
+    VPN -> TA: отчет о выполнении комманды
+    TA -> DB: Putch command_queue
+    DB --> B: SS-config создан
+    B --> U: SS-config создан(результат по заявке)
+    TA -> DB: DELETE FROM ss_config WHERE id=...
+    DB --> B: Успешно удалено
+    B -> U: SS-config удалён
+
+else Ничего не выбрано
+    U -> B: Ничего не выбрано
+    B -> U: Ожидание действия
+end
+
+@enduml
