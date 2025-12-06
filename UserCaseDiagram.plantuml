@@ -12,7 +12,6 @@ rectangle "VPN Server manager" {
     (VPN administration)..> (View the list of self ssconfig)
     (User administration) ..> (View the list of SS-config)
     (View the list of SS-config) ..> (Greate) 
-    (View the list of SS-config) ..> (Update)
     (View the list of SS-config) ..> (Delete)
    
     (VPN administration for User) ..> (View the list of self ssconfig)
